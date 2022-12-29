@@ -14,7 +14,7 @@ public class Elevator{
         f.checkCurrentFloor();                               // Check if the current floor between 0 and 54
 
         System.out.println("Button gedrückt!");
-        TimeUnit.SECONDS.sleep(1);                    // Sleep 1 second
+        TimeUnit.SECONDS.sleep(1);                           // Sleep 1 second
 
         int countOfNextCloserLift = f.findCloserLift(f.currentFloor, f.lifts);  //  Find out next elevator is near
         TimeUnit.SECONDS.sleep(1);
