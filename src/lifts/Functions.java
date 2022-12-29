@@ -10,8 +10,7 @@ public class Functions{
     // ***********************************  Variables    *******************************************
     int[][] lifts = new int[55][7];
 
-    int Person = 0, currentFloor = 0, destinationFloor = 0;
-
+    public int currentFloor = 0, destinationFloor = 0;
 
     // ***********************************    Enums    *******************************************
 
@@ -40,7 +39,7 @@ public class Functions{
 
     void checkCurrentFloor() {
         do {
-            System.out.println("Please choose your current floor");
+            System.out.println("\nPlease choose your current floor");
             Scanner scan2 = new Scanner(System.in);
             currentFloor = scan2.nextInt();
         } while (currentFloor < 0 || currentFloor > 54);
@@ -48,9 +47,9 @@ public class Functions{
 
     // *****************************   Check direction floor    *************************************
 
-    void checkDestinationFloor() {
+    void checkDirectionFloor() {
         do {
-            System.out.println("Please choose your direction floor");
+            System.out.println("\nPlease choose your direction floor");
             Scanner scan3 = new Scanner(System.in);
             destinationFloor = scan3.nextInt();
         } while (destinationFloor < 0 || destinationFloor > 54);
@@ -58,7 +57,7 @@ public class Functions{
 
     // ************************    Crate all Elevators with 0    **********************************
 
-    void generateFloor() {
+    void generateElevatorSystem() {
 
         for (int r = 0; r < lifts.length; r++) {
             for (int c = 0; c < lifts[r].length; c++) {
@@ -85,7 +84,7 @@ public class Functions{
     void printout() {
         for (int r = 0; r < lifts.length; r++) {
             System.out.println("\n");
-            System.out.print("Stock: " + r + "   ");
+            System.out.print("Floor: " + r + "\t");
             for (int c = 0; c < lifts[r].length; c++) {
                 System.out.print(lifts[r][c] + "  ");
             }
@@ -97,68 +96,86 @@ public class Functions{
 
         if (currentFloor > destinationFloor) {
             Functions.Direction directionDown = Functions.Direction.DOWN;
-            System.out.println("[current floor: " + currentFloor + ", destination floor: "
+            System.out.println("\n[current floor: " + currentFloor + ", destination floor: "
                     + destinationFloor + ", direction:" + directionDown + "]");
         } else if (currentFloor < destinationFloor) {
             Functions.Direction directionUp = Functions.Direction.UP;
-            System.out.println("[current floor: " + currentFloor + ", destination floor: "
+            System.out.println("\n[current floor: " + currentFloor + ", destination floor: "
                     + destinationFloor + ", direction:" + directionUp + "]");
         } else {
-            System.out.println("[You are already on the direction floor]");
+            System.out.println("\n[You are already on the direction floor]");
         }
     }
-    // *********************************    Check Avaible Elevators    ****************************************
 
+    // ***********************    Check if any Elevator on this Floor    ****************************
 
     public boolean isElevatorOnFloor(int[] elevatorFloor) {
-        for (int i = 0; i < elevatorFloor.length; i++) {
+
+        int[] sortedArray = new int[0];
+        sortedArray = elevatorFloor;
+        int clone_Array[] = sortedArray.clone();
+        java.util.Arrays.sort(clone_Array);
+        return Arrays.binarySearch(clone_Array, 1) > -1;
+
+        /*
+
+         for (int i = 0; i < elevatorFloor.length; i++) {
             if (elevatorFloor[i] == 1) {
                 return true;
             } else {
                 return false;
             }
-      /*  int[] sortedArray = new int[0];
-        sortedArray = elevatorFloor;
-        java.util.Arrays.sort(sortedArray);
-        return Arrays.binarySearch(sortedArray, 1) > -1;*/
-        }
         return false;
+        }
+
+        */
     }
 
+    // ****************************    Check if the array Area    ************************************
+
+    // This Function checks whether a row or column is in the Area.
+    // Returns false if anyone is no longer in the Area
     public boolean isRowWithinGridLimit(int numRows, int row) {
         return row > -1 && row < numRows;
     }
 
+    // *************************    Check Closer Elevator Distance    *********************************
+
+
     public int findCloserLift(int floor, int[][] area) {
-        if (isElevatorOnFloor(area[floor])) {
-            System.out.println("da da da");
+        if (isElevatorOnFloor(area[floor])) {               // Returns 0 the elevator on the current floor,
+            System.out.println("\nElevator is arrived!");
             return 0;
         }
-        int i = 1;
+        int i = 1;                                          // If the elevator is not on the current floor, check next down and up floors
         int rowAbove = floor + i;
         int rowBelow = floor - i;
 
-        while (isRowWithinGridLimit(area.length, rowAbove) || isRowWithinGridLimit(area.length, rowBelow)) {
-            if (isRowWithinGridLimit(area.length, rowAbove)) {
-                if (isElevatorOnFloor(area[rowAbove])) {
-                    System.out.println("Asansör " + rowAbove + ". katta!");
+        while (isRowWithinGridLimit(area.length, rowAbove) || isRowWithinGridLimit(area.length, rowBelow)) {  // Checks the Array Limits
+            if (isRowWithinGridLimit(area.length, rowAbove)) {                      // Checks in the direction UP
+                if (isElevatorOnFloor(area[rowAbove])) {                            // If found any elevator on this floor. return it
+                    System.out.println("\nElevator is at the floor: " + rowAbove + "and moving to your current floor:"+currentFloor+"!");
                     return rowAbove;
                 }
             }
-            if (isRowWithinGridLimit(area.length, rowBelow)) {
-                if (isElevatorOnFloor(area[rowBelow])) {
-                    System.out.println("Asansör " + rowBelow + ". katta!");
+            if (isRowWithinGridLimit(area.length, rowBelow)) {                       // Checks in the direction DOWN
+                if (isElevatorOnFloor(area[rowBelow])) {                             // If found any elevator on this floor. return it
+                    System.out.println("\nElevator is at the floor: " + rowBelow + "and moving to your current floor:"+currentFloor+"!");
                     return rowBelow;
                 }
             }
 
-            i++;
+            i++;                                                                     // Otherwise increase the i and check next floor UP and DOWN
             rowAbove = floor + i;
             rowBelow = floor - i;
 
         }
         return -1;
     }
+
+    // ******************************    Check Elevator Number    *************************************
+    // Floor found, now find the Column(Elevator 1/2/3...7)
+
     private int findColumnOfLift(int[]liftcolumn){
         for(int i = 0;i<liftcolumn.length;i++){
             if(liftcolumn[i]==1){
@@ -168,64 +185,27 @@ public class Functions{
         return 0;
     }
 
-    public void moveliftToFloor(int destinationFloor, int selectedLift) {
+    // ***********************   Move the Elevator to the Destination   ********************************
+
+    public void callLiftToCurrentFloor(int destinationFloor, int selectedLift) {
+        int columnOfLiftFloor = findColumnOfLift(lifts[selectedLift]);
+        lifts[selectedLift][columnOfLiftFloor] = 0;                         // Make old place of elevator 0
+        if (columnOfLiftFloor != 0) {                                       // Check if they are an elevator
+            lifts[destinationFloor][columnOfLiftFloor] = 1;                 // Make new place of elevator 1
+            System.out.println("\nElevator arrived!");
+        }
+    }
+
+    // ***********************   Move the Elevator to the Destination   ********************************
+
+    // f.moveliftToDestinationFloor(f.destinationFloor,f.currentFloor);
+    public void moveliftToDestinationFloor(int destinationFloor, int selectedLift) {
 
         int columnOfLiftFloor = findColumnOfLift(lifts[selectedLift]);
-        lifts[selectedLift][columnOfLiftFloor] = 0;
-        lifts[destinationFloor][columnOfLiftFloor] = 1;
+        lifts[selectedLift][columnOfLiftFloor] = 0;                         // Make old place of elevator 0
+        if (columnOfLiftFloor != 0)                                         // Check if they are an elevator
+            lifts[destinationFloor][columnOfLiftFloor] = 1;                 // Make new place of elevator 1
+        System.out.println("\nElevator is on the "+destinationFloor+". floor now\n\nGood bye!");
+
     }
-
-
 }
-    /*
-
-    public int findFloorWhereLiftIs(int[] liftColumn) {
-        for (int i = 0; i < liftColumn.length; i++) {
-            if (liftColumn[i] == 1) {
-                System.out.println("i = "+i);
-                return i;
-            }
-
-        }
-        return -1;
-    }
-
-        int countOfNextCloserLift = findCloserLift(currentFloor, lifts);  //  Find out next elevator is near
-
-
-
-
-    public int findCloserLift(int destinationFloor) {
-        int liftMinimumJourney = 0;
-        int minDistance = 55;
-
-        for(int lift= 0; lift < lifts.length; lift++){
-            int indexOfLift = findFloorWhereLiftIs(lifts[lift]);
-            int distance = Math.abs(destinationFloor-indexOfLift);
-            if(distance<minDistance){
-                minDistance=distance;
-                liftMinimumJourney=lift;
-            }
-
-        }
-        System.out.println("Lift Minimum = "+liftMinimumJourney);
-        return liftMinimumJourney;
-    }
-    public void moveliftToFloor(int destinationFloor, int selectedLift){
-        int floorWhereLiftIs = findFloorWhereLiftIs(lifts[selectedLift]);
-        lifts[selectedLift][floorWhereLiftIs]= 0;
-        lifts[selectedLift][destinationFloor]= 1;
-
-    }
-
-    public int findFloorWhereLiftIs(int[] liftColumn) {
-        for(int i=0; i<liftColumn.length; i++){
-            if(liftColumn[i]==1){
-                return i;
-            }
-        }
-        return 0;
-    }
-
-}
-*/
