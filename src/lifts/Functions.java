@@ -17,10 +17,11 @@ public class Functions{
     enum Direction {
         UP, DOWN
     }
-    // ****************************     Check Employee      ***************************************
+
+    // ******************************     Check employees     ***************************************
 
     void checkEmployee() {
-        // In this function has been checked if this Person an Employee from IBM
+        // In this function has been checked if this person an employee from IBM
 
         Scanner scan0 = new Scanner(System.in);
         System.out.println("IBM Employee?");
@@ -45,9 +46,9 @@ public class Functions{
         } while (currentFloor < 0 || currentFloor > 54);
     }
 
-    // *****************************   Check direction floor    *************************************
+    // *****************************   Check destination floor    *************************************
 
-    void checkDirectionFloor() {
+    void checkDestinationFloor() {
         do {
             System.out.println("\nPlease choose your direction floor");
             Scanner scan3 = new Scanner(System.in);
@@ -55,7 +56,7 @@ public class Functions{
         } while (destinationFloor < 0 || destinationFloor > 54);
     }
 
-    // ************************    Crate all Elevators with 0    **********************************
+    // ************************    Crate all elevators with 0    **********************************
 
     void generateElevatorSystem() {
 
@@ -66,7 +67,7 @@ public class Functions{
         }
     }
 
-    // ***************************  Share Elevators in Building    *******************************
+    // ***********************  Share elevators randomly in the building    ****************************
 
     void shareLifts() {
         for (int rmNr = 0; rmNr < 7; rmNr++) {
@@ -79,7 +80,7 @@ public class Functions{
             }
         }
     }
-    // *********************************    Print Elevators    ***********************************
+    // *********************************    Print elevators    ***********************************
 
     void printout() {
         for (int r = 0; r < lifts.length; r++) {
@@ -91,7 +92,7 @@ public class Functions{
         }
     }
 
-    // *********************************    Find Direction    ***********************************
+    // *********************************    Find direction    ***********************************
     void findDirection() {
 
         if (currentFloor > destinationFloor) {
@@ -107,7 +108,7 @@ public class Functions{
         }
     }
 
-    // ***********************    Check if any Elevator on this Floor    ****************************
+    // ***********************    Check if any elevator on selected floor    ****************************
 
     public boolean isElevatorOnFloor(int[] elevatorFloor) {
 
@@ -117,21 +118,9 @@ public class Functions{
         java.util.Arrays.sort(clone_Array);
         return Arrays.binarySearch(clone_Array, 1) > -1;
 
-        /*
-
-         for (int i = 0; i < elevatorFloor.length; i++) {
-            if (elevatorFloor[i] == 1) {
-                return true;
-            } else {
-                return false;
-            }
-        return false;
-        }
-
-        */
     }
 
-    // ****************************    Check if the array Area    ************************************
+    // ***************************   Check if the array area is OK    *********************************
 
     // This Function checks whether a row or column is in the Area.
     // Returns false if anyone is no longer in the Area
@@ -173,7 +162,7 @@ public class Functions{
         return -1;
     }
 
-    // ******************************    Check Elevator Number    *************************************
+    // ************************    Check elevator number with column    *******************************
     // Floor found, now find the Column(Elevator 1/2/3...7)
 
     private int findColumnOfLift(int[]liftcolumn){
@@ -185,7 +174,7 @@ public class Functions{
         return 0;
     }
 
-    // ***********************   Move the Elevator to the Destination   ********************************
+    // *********************   Call the elevator to the current floor   ******************************
 
     public void callLiftToCurrentFloor(int destinationFloor, int selectedLift) {
         int columnOfLiftFloor = findColumnOfLift(lifts[selectedLift]);
@@ -196,9 +185,8 @@ public class Functions{
         }
     }
 
-    // ***********************   Move the Elevator to the Destination   ********************************
+    // *******************   Move the elevator to the destination floor   ******************************
 
-    // f.moveliftToDestinationFloor(f.destinationFloor,f.currentFloor);
     public void moveliftToDestinationFloor(int destinationFloor, int selectedLift) {
 
         int columnOfLiftFloor = findColumnOfLift(lifts[selectedLift]);

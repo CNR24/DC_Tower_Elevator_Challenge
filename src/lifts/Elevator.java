@@ -20,7 +20,7 @@ public class Elevator{
         TimeUnit.SECONDS.sleep(1);
         f.callLiftToCurrentFloor(f.currentFloor, countOfNextCloserLift);        //  Call Lift to current floor
         f.printout();
-        f.checkDirectionFloor();                              // Check if the destination floor between 0 and 54
+        f.checkDestinationFloor();                            // Check if the destination floor between 0 and 54
         TimeUnit.SECONDS.sleep(1);
         f.findDirection();                                    // Find out which way the passenger is going
         TimeUnit.SECONDS.sleep(1);
