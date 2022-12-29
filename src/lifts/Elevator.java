@@ -1,70 +1,40 @@
-import java.util.Arrays;
-import java.util.Random;
-import java.util.Scanner;
+package lifts;
+
+import java.util.concurrent.TimeUnit;
+
 public class Elevator{
 
-    enum State{
-        MOVING, STOPPED, IDLE
-    }
-    enum Direction{
-        UP,DOWN
-    }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
-        // Hier wird kontrolliert ob der Person ein Mitarbeiter von IBM ist
+        Functions f = new Functions();
+       // f.checkEmployee();          // Check if this Person an Employee from IBM
+        f.generateFloor();          // Generate all Floors and Elevators
+        f.shareLifts();             // Share elevators randomly ind the Building
+        f.printout();               // Print all elevators and floors to check if everything is OK
 
-        Scanner scan  = new Scanner(System.in);
+        System.out.println("\n\nButton gedrückt!");
+        //TimeUnit.SECONDS.sleep(1);
+        System.out.println("Aufzug kommt!");
+        //TimeUnit.SECONDS.sleep(1);
 
-        System.out.println("IBM Mitarbeiter?");
-        int i = scan.nextInt();
-        if(i == 0)
-            System.out.println("Kein Zutritt");
-        else if(i == 1)
-            System.out.println("Zutritt genehmigt"+"\nIBM Büro befindet sich im 35. Stock ");
+        f.checkCurrentFloor();      // Check if the current floor between 0 and 54
+        f.checkDestinationFloor();  // Check if the destination floor between 0 and 54
+        f.findDirection();          // Find out which way the passenger is going
 
-        else System.out.println("Mitarbeiter Error!");
+        int[][] lifts2 = new int[0][0];
+        lifts2 = f.lifts;
+        int newCurrentFloor = f.currentFloor;
+        int newFindCloserLift = f.findCloserLift(newCurrentFloor, lifts2);  //  Find out next elevator is near
+        int  newDestinationFloor = f.destinationFloor;
 
-// **************************    Stockwerke 0 setzen    **********************************
-
-
-       int[][] lifts = new int [55][7];
-
-        for (int r = 0;r < lifts.length; r++){
-            for (int c = 0; c < lifts[r].length; c++){
-                lifts[r][c] = 0;
-            }
-        }
-
-// ***************************  Aufzuege Random Verteilen    *******************************
+        f.moveliftToFloor(newDestinationFloor,newCurrentFloor);
+        f.printout();
 
 
-        for (int rmNr = 0; rmNr<7; rmNr++){
-
-            Random random = new Random();
-            int randomfloor = random.nextInt(55);
-
-            if(lifts[randomfloor][rmNr] == 0){
-                lifts[randomfloor][rmNr]= 1;
-            }
-        }
-
- // *********************************    AUSGABE    ****************************************
-
-        for (int r = 0;r < lifts.length; r++){
-            System.out.println("\n");
-            for (int c = 0; c < lifts[r].length; c++){
-                System.out.print(lifts[r][c]+"  ");
-            }
-        }
-
-        System.out.println("Button gedrückt!\n Aufzug kommt!");
-        int button = 0;
-
-        if(button == 1){
-            check(lifts[0][1])
-        }
-
+        //int countOfNextCloserLift = f.findCloserLift(newCurrentFlow, lifts2);  //  Find out next elevator is near
+        // int long1 = lifts.length; 55
+        // int long2 = lifts[0].length; 7
 
     }
 }
