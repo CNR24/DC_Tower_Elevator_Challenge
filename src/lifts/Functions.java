@@ -3,6 +3,7 @@ package lifts;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 public class Functions{
 
@@ -20,17 +21,19 @@ public class Functions{
 
     // ******************************     Check employees     ***************************************
 
-    void checkEmployee() {
+    void checkEmployee() throws InterruptedException {
         // In this function has been checked if this person an employee from IBM
 
         Scanner scan0 = new Scanner(System.in);
-        System.out.println("IBM Employee?");
-        int i = scan0.nextInt();
-        if (i == 0) {
-            System.out.println("No Access");
+        System.out.print("\nPlease typ True for IBM Employee and false otherwise:");
+        boolean employee = scan0.nextBoolean();
+        System.out.println("\nChecking for IBM Employee...");
+        TimeUnit.SECONDS.sleep(1);
+        if (employee == false) {
+            System.out.println("No Access!\nYou are not an IBM employee");
             System.exit(0);   // If the Person is not Employee, stop Program.
-        } else if (i == 1) {
-            System.out.println("Access is successfully" + "\nIBM office on the 35th floor ");
+        } else if (employee == true) {
+            System.out.println("\nAccess is successfully!" + "\n\nIBM office on the 35th floor.");
         } else {
             System.out.println("Employee check error!");
         }
@@ -40,7 +43,7 @@ public class Functions{
 
     void checkCurrentFloor() {
         do {
-            System.out.println("\nPlease choose your current floor");
+            System.out.println("\n\nPlease choose your current floor");
             Scanner scan2 = new Scanner(System.in);
             currentFloor = scan2.nextInt();
         } while (currentFloor < 0 || currentFloor > 54);
@@ -50,7 +53,7 @@ public class Functions{
 
     void checkDestinationFloor() {
         do {
-            System.out.println("\nPlease choose your direction floor");
+            System.out.println("\nPlease choose your destination floor");
             Scanner scan3 = new Scanner(System.in);
             destinationFloor = scan3.nextInt();
         } while (destinationFloor < 0 || destinationFloor > 54);
@@ -143,13 +146,13 @@ public class Functions{
         while (isRowWithinGridLimit(area.length, rowAbove) || isRowWithinGridLimit(area.length, rowBelow)) {  // Checks the Array Limits
             if (isRowWithinGridLimit(area.length, rowAbove)) {                      // Checks in the direction UP
                 if (isElevatorOnFloor(area[rowAbove])) {                            // If found any elevator on this floor. return it
-                    System.out.println("\nElevator is at the floor: " + rowAbove + "and moving to your current floor:"+currentFloor+"!");
+                    System.out.println("\nNext elevator is at the "+ rowAbove + ". floor and moving to your current floor:"+currentFloor+"!");
                     return rowAbove;
                 }
             }
             if (isRowWithinGridLimit(area.length, rowBelow)) {                       // Checks in the direction DOWN
                 if (isElevatorOnFloor(area[rowBelow])) {                             // If found any elevator on this floor. return it
-                    System.out.println("\nElevator is at the floor: " + rowBelow + "and moving to your current floor:"+currentFloor+"!");
+                    System.out.println("\nNext elevator is at the " + rowBelow + ". floor and moving to your current floor:"+currentFloor+"!");
                     return rowBelow;
                 }
             }
@@ -181,7 +184,7 @@ public class Functions{
         lifts[selectedLift][columnOfLiftFloor] = 0;                         // Make old place of elevator 0
         if (columnOfLiftFloor != 0) {                                       // Check if they are an elevator
             lifts[destinationFloor][columnOfLiftFloor] = 1;                 // Make new place of elevator 1
-            System.out.println("\nElevator arrived!");
+            System.out.println("\nElevator has arrived!");
         }
     }
 
